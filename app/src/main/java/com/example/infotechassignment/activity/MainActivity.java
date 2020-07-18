@@ -1,5 +1,6 @@
 package com.example.infotechassignment.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,10 +10,14 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.infotechassignment.Adapter.AssignmentAdapter;
@@ -45,11 +50,12 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> permissionsRejected = new ArrayList<>();
     private ArrayList<String> permissions = new ArrayList<>();
     private final static int ALL_PERMISSIONS_RESULT = 101;
-    public LocationTrack locationTrack;
+
     public int TIMECOUNT = 10000;
     public boolean ISTRAVERSING = true;
     public double longitude, latitude;
     Handler handler = new Handler();
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +63,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recycDetails);
         assignmentAdapter = new AssignmentAdapter(assignmentResp, getApplicationContext()); // as you want you dec or nor
+        button = findViewById(R.id.location);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle("");
+        }
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NearByRestaurantsActivity.class);
+                startActivity(intent);
+            }
+        });
         onService();
 
 //        gpsTrackingWithOutServiceClass();
@@ -72,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
 //        }, 5000);                ///  update gps location
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        onBackPressed();
+        return super.onOptionsItemSelected(item);
+    }
 
     private void onService() {
 
