@@ -12,7 +12,7 @@
         android:id="@+id/prof_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="?attr/actionBarSize"
+        android:layout_margin="@dimen/_10sdp"
         android:orientation="horizontal">
 
         <ImageView
